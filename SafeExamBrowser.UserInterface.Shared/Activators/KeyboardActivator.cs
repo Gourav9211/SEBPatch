@@ -15,6 +15,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
 	public abstract class KeyboardActivator
 	{
+		private static bool shortcutsSuspended;
 		private Guid? hookId;
 		private INativeMethods nativeMethods;
 		private bool paused;
@@ -25,6 +26,23 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 		}
 
 		protected abstract bool Process(Key key, KeyModifier modifier, KeyState state);
+
+		protected virtual bool ProcessWhenSuspended(Key key, KeyModifier modifier, KeyState state)
+		{
+			return false;
+		}
+
+		protected static bool ShortcutsSuspended => shortcutsSuspended;
+
+		protected static void ResumeShortcutProcessing()
+		{
+			shortcutsSuspended = false;
+		}
+
+		protected static void ToggleShortcutProcessing()
+		{
+			shortcutsSuspended = !shortcutsSuspended;
+		}
 
 		public void Pause()
 		{
@@ -63,6 +81,11 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 		{
 			if (!paused)
 			{
+				if (shortcutsSuspended)
+				{
+					return ProcessWhenSuspended(KeyInterop.KeyFromVirtualKey(keyCode), modifier, state);
+				}
+
 				return Process(KeyInterop.KeyFromVirtualKey(keyCode), modifier, state);
 			}
 

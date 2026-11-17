@@ -31,6 +31,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 		protected override void OnBeforeResume()
 		{
+			ResumeShortcutProcessing();
 			A = false;
 			LeftWindows = false;
 		}
@@ -54,6 +55,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 			if (A && LeftWindows && changed)
 			{
+				ToggleShortcutProcessing();
 				logger.Debug("Detected toggle sequence for action center.");
 				Toggled?.Invoke();
 			}

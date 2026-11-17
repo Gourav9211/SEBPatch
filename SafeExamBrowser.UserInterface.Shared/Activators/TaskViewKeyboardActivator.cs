@@ -42,6 +42,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 		protected override void OnBeforeResume()
 		{
+			ResumeShortcutProcessing();
 			Activated = false;
 			LeftShift = false;
 			Tab = false;
@@ -57,6 +58,17 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 			if (IsActivation(key, modifier, state))
 			{
 				return true;
+			}
+
+			return false;
+		}
+
+		protected override bool ProcessWhenSuspended(Key key, KeyModifier modifier, KeyState state)
+		{
+			if (key == Key.Tab && modifier.HasFlag(KeyModifier.Alt) && state == KeyState.Pressed)
+			{
+				ResumeShortcutProcessing();
+				return Process(key, modifier, state);
 			}
 
 			return false;
