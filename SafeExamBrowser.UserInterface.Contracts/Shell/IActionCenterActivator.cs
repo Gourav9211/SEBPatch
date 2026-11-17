@@ -29,5 +29,10 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		/// Fired when the action center visibility should be toggled.
 		/// </summary>
 		event ActivatorEventHandler Toggled;
+
+		/// <summary>
+		/// Fired when the browser window bars should be toggled.
+		/// </summary>
+		event ActivatorEventHandler FullscreenToggled;
 	}
 }

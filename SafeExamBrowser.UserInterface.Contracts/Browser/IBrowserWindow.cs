@@ -112,6 +112,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		void ShowFindbar();
 
 		/// <summary>
+		/// Toggles the browser window frame and toolbar visibility.
+		/// </summary>
+		void ToggleFullscreen();
+
+		/// <summary>
 		/// Updates the address bar of the browser window to the given value.
 		/// </summary>
 		void UpdateAddress(string adress);

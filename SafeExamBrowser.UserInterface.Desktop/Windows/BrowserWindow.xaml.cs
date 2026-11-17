@@ -46,6 +46,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private WindowClosingEventHandler closing;
 		private bool browserControlGetsFocusFromTaskbar;
 		private IInputElement tabKeyDownFocusElement;
+		private bool fullscreenToggled;
+		private WindowStyle windowStyleBeforeToggle;
 
 		private WindowSettings WindowSettings
 		{
@@ -112,6 +114,26 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 				Closing -= BrowserWindow_Closing;
 				closing?.Invoke();
 				base.Close();
+			});
+		}
+
+		public void ToggleFullscreen()
+		{
+			Dispatcher.Invoke(() =>
+			{
+				if (fullscreenToggled)
+				{
+					WindowStyle = windowStyleBeforeToggle;
+					Toolbar.Visibility = WindowSettings.ShowToolbar ? Visibility.Visible : Visibility.Collapsed;
+				}
+				else
+				{
+					windowStyleBeforeToggle = WindowStyle;
+					WindowStyle = WindowStyle.None;
+					Toolbar.Visibility = Visibility.Collapsed;
+				}
+
+				fullscreenToggled = !fullscreenToggled;
 			});
 		}
 

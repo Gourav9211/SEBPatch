@@ -18,11 +18,12 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 	public class ActionCenterKeyboardActivator : KeyboardActivator, IActionCenterActivator
 	{
 		private readonly ILogger logger;
-		private bool A, LeftWindows;
+		private bool A, F11, LeftWindows;
 
 		public event ActivatorEventHandler Activated { add { } remove { } }
 		public event ActivatorEventHandler Deactivated { add { } remove { } }
 		public event ActivatorEventHandler Toggled;
+		public event ActivatorEventHandler FullscreenToggled;
 
 		public ActionCenterKeyboardActivator(ILogger logger, INativeMethods nativeMethods) : base(nativeMethods)
 		{
@@ -33,6 +34,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 		{
 			ResumeShortcutProcessing();
 			A = false;
+			F11 = false;
 			LeftWindows = false;
 		}
 
@@ -51,6 +53,15 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 					changed = LeftWindows != pressed;
 					LeftWindows = pressed;
 					break;
+				case Key.F11:
+					changed = F11 != pressed;
+					F11 = pressed;
+					break;
+			}
+
+			if (F11 && changed && modifier == KeyModifier.None)
+			{
+				FullscreenToggled?.Invoke();
 			}
 
 			if (A && LeftWindows && changed)

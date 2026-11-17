@@ -27,6 +27,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 		public event ActivatorEventHandler Activated;
 		public event ActivatorEventHandler Deactivated { add { } remove { } }
 		public event ActivatorEventHandler Toggled { add { } remove { } }
+		public event ActivatorEventHandler FullscreenToggled { add { } remove { } }
 
 		public ActionCenterTouchActivator(ILogger logger, INativeMethods nativeMethods) : base(nativeMethods)
 		{

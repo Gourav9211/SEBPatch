@@ -109,6 +109,7 @@ namespace SafeExamBrowser.Client.Operations
 				if (Context.Settings.UserInterface.ActionCenter.EnableActionCenter && activator is IActionCenterActivator actionCenterActivator)
 				{
 					actionCenter.Register(actionCenterActivator);
+					actionCenterActivator.FullscreenToggled += ActionCenterActivator_FullscreenToggled;
 					actionCenterActivator.Start();
 				}
 
@@ -128,6 +129,14 @@ namespace SafeExamBrowser.Client.Operations
 					taskbar.Register(taskbarActivator);
 					taskbarActivator.Start();
 				}
+			}
+		}
+
+		private void ActionCenterActivator_FullscreenToggled()
+		{
+			foreach (var window in Context.Browser.GetWindows())
+			{
+				window.ToggleFullscreen();
 			}
 		}
 
