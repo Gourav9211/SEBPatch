@@ -106,9 +106,13 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			foreach (var activator in Context.Activators)
 			{
-				if (Context.Settings.UserInterface.ActionCenter.EnableActionCenter && activator is IActionCenterActivator actionCenterActivator)
+				if (activator is IActionCenterActivator actionCenterActivator)
 				{
-					actionCenter.Register(actionCenterActivator);
+					if (Context.Settings.UserInterface.ActionCenter.EnableActionCenter)
+					{
+						actionCenter.Register(actionCenterActivator);
+					}
+
 					actionCenterActivator.FullscreenToggled += ActionCenterActivator_FullscreenToggled;
 					actionCenterActivator.Start();
 				}
