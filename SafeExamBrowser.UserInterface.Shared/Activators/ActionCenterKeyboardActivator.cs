@@ -73,5 +73,18 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 			return false;
 		}
+
+		protected override bool ProcessWhenSuspended(Key key, KeyModifier modifier, KeyState state)
+		{
+			if (key == Key.F11 && state == KeyState.Pressed && modifier == KeyModifier.None)
+			{
+				ResumeShortcutProcessing();
+				FullscreenToggled?.Invoke();
+
+				return true;
+			}
+
+			return false;
+		}
 	}
 }
